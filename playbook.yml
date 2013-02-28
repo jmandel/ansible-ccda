@@ -20,19 +20,22 @@
         - curl
 
     - name: General | MOTD for Ansible
-      action: copy src=files/etc-update-motd-d-95-ansible dest=/etc/update-motd.d/95-ansible mode=755
+      action: copy src=files/etc/update-motd.d/95-ansible dest=/etc/update-motd.d/95-ansible mode=755
       tags: common
 
     - name: Node.js | Add the node.js PPA
       action: command add-apt-repository -y ppa:chris-lea/node.js
               creates=/etc/apt/sources.list.d/chris-lea-node_js-${ansible_lsb.codename}.list
+      register: added_node_ppa
 
     - name: Node.js | Update the apt cache for the new repository
       action: apt update_cache=yes
+      when_boolean: ${added_node_ppa.changed}
 
     - name: Node.js | Install nodejs and npm
-      action: apt pkg=$item state=installed
       tags: nodejs
+      action: apt pkg=$item state=installed
+      when_boolean: ${added_node_ppa.changed}
       with_items:
         - nodejs
         - npm
@@ -43,14 +46,16 @@
       tags: mongodb
 
     - name: Mongodb | Add the Mongodb repo
+      tags: mongodb
       action: copy 
               src=files/etc/apt/sources.list.d/10gen.list
               dest=/etc/apt/sources.list.d/10gen.list
               owner=root group=root mode=0644
-      tags: mongodb
+      register: added_mongo_ppa
 
     - name: Mongodb | Install packages
       action: apt pkg=mongodb-10gen state=installed update_cache=yes
+      when_boolean: ${added_mongo_ppa.changed}
       tags: mongodb
 
     - name: CCDA-R | Install packages
@@ -99,7 +104,6 @@
       with_items:
         - ccda-receiver.conf
         - ccda-receiver-apps.conf
-
 
     - name: CCDA-R | create sample data dir
       tags: ccda-receiver
