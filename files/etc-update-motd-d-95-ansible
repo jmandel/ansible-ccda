@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo
+echo " ********************************************************"
+echo " * This server is configured using Ansible."
+echo " * To change configuration, modify the playbooks vars in"
+echo " * and re-apply.  Do not manually edit files."
+echo " * See https://github.com/jmandel"
+echo " ********************************************************"
+echo
