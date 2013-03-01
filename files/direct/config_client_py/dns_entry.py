@@ -7,6 +7,7 @@ class DNS(object):
         d.name = self.name
         d.ttl = self.ttl 
         d.data = self.data
+        d.dclass=1
         d.id = 0
 
         for existing in client.service.getDNSByType(self.record_type):

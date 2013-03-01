@@ -84,9 +84,11 @@
   action: get_url url=http://localhost:8081/config-service/ dest=/dev/null force=yes
 
 - name: Direct | installer temp directory
+  tags: dns
   action: file path=/tmp/install/direct/config_client_py state=directory
 
 - name: Direct | copy python config client
+  tags: dns
   action: copy src=$item dest=/tmp/install/direct/config_client_py/
   with_fileglob: files/direct/config_client_py/*.py
 
@@ -138,6 +140,7 @@
     - /tmp/install/direct/rsa-key.pem
 
 - name: Direct | Add DNS Records
+  tags: dns
   action: command python add_dns.py $item
                   $direct_domain_name 
                   ${ansible_default_ipv4.address}
