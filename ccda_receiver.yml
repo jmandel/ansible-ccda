@@ -86,18 +86,19 @@
     - ccda-receiver-apps.conf
 
 - name: Debug ccdar params
+  tags: ccda-receiver
   action: debug msg="CCDA REceiver url ${ccda_receiver_url}"
 
 - name: CCDA-R | install default apps script - run
   tags: ccda-receiver
-  action: command node tasks/bootstrap chdir=/opt/ccda-receiver
+  action: command node tasks/bootstrap.js chdir=/opt/ccda-receiver
   environment:
     PUBLIC_URI: $ccda_receiver_url
     APP_SERVER: $ccda_receiver_apps_url
 
 - name: CCDA-R | run servers
   tags: ccda-receiver
-  action: service name=$item state=running
+  action: service name=$item state=restarted
   with_items: 
     - ccda-receiver
     - ccda-receiver-apps
@@ -122,3 +123,21 @@
   action: command curl -X POST -d @${item.file} ${ccda_receiver_url}/internal/addPatient/${item.pid}
           chdir=/tmp/install/sample_ccdas
   with_items:  ${to_post.results}
+
+
+- name: nginx | install packages
+  tags: nginx
+  action: apt pkg=$item state=installed
+  with_items:
+    - nginx
+
+- name: nginx | config file
+  tags: nginx
+  action: template 
+          src=templates/ccda_receiver/nginx/ccda-receiver-site.j2
+          dest=/etc/nginx/sites-enabled/ccda-receiver-site
+          owner=root group=root mode=0644
+
+- name: nginx | start service
+  tags: nginx
+  action: service name=nginx state=restarted

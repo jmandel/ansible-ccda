@@ -1,7 +1,7 @@
 ---
 {
-  "direct_domain_name": "direct-puppet.smartplatforms.org",
-  "postmaster": "postmaster@direct-puppet.smartplatforms.org",
+  "direct_domain_name": "direct-ansible.smartplatforms.org",
+  "postmaster": "postmaster@direct-ansible.smartplatforms.org",
   "email_users": [
     {
       "username": "alice",

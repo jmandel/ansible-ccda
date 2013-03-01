@@ -132,7 +132,7 @@
 - name: Direct | Copy certs out of tmp
   tags: grabber
   action: command cp -r $item .
-          chdir=/opt/direct
+          chdir=/opt/direct/certificates
   with_items: 
     - /tmp/install/direct/certificate.pem
     - /tmp/install/direct/certificate.der
