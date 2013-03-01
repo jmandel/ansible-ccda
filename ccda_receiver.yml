@@ -85,12 +85,15 @@
     - ccda-receiver.conf
     - ccda-receiver-apps.conf
 
+- name: Debug ccdar params
+  action: debug msg="CCDA REceiver url ${ccda_receiver_url}"
+
 - name: CCDA-R | install default apps script - run
   tags: ccda-receiver
   action: command node tasks/bootstrap chdir=/opt/ccda-receiver
   environment:
-    PUBLIC_URI: ${ccda_receiver_url}
-    APP_SERVER: ${ccda_receiver_apps_url}
+    PUBLIC_URI: $ccda_receiver_url
+    APP_SERVER: $ccda_receiver_apps_url
 
 - name: CCDA-R | run servers
   tags: ccda-receiver
