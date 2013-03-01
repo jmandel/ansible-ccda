@@ -16,9 +16,12 @@ We'll focus on local mode, since it's simpler (and only requires a single machin
 
 
 ##### 1. Provision a fresh Ubuntu 12.10 VM in the cloud.
-##### 2.  Log in (as root for now) and install ansible + this playbook.
+##### 2.  Install dependencies, ansible, and this playbook.
 
 ```
+# Install package dependencies
+apt-get -y install git make python-yaml python-jinja2 python-paramiko
+
 # Install Ansible
 git clone git://github.com/ansible/ansible.git
 cd ansible
