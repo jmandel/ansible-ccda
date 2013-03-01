@@ -1,0 +1,23 @@
+description "Tomcat Server"
+ 
+  start on runlevel [2345]
+  stop on runlevel [!2345]
+  respawn
+  respawn limit 10 5
+ 
+#  setuid direct
+#  setgid direct
+ 
+  # adapt paths:
+  env JAVA_HOME={{java_home}}
+  env CATALINA_HOME=/opt/direct/apache-tomcat-7.0.37
+
+  script
+    chdir $CATALINA_HOME
+    exec $CATALINA_HOME/bin/catalina.sh run
+  end script
+ 
+  # cleanup temp directory after stop
+  post-stop script 
+    rm -rf $CATALINA_HOME/temp/*
+  end script

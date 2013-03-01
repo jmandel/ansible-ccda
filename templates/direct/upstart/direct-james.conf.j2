@@ -1,0 +1,14 @@
+description "James 2.3 Server"
+ 
+  start on runlevel [2345]
+  stop on runlevel [!2345]
+  respawn
+  respawn limit 10 5
+ 
+  env JAVA_HOME={{java_home}}
+  env JAMES_HOME=/opt/direct/james-2.3.2
+
+  script
+    chdir $JAMES_HOME 
+    exec $JAMES_HOME/bin/run.sh
+  end script

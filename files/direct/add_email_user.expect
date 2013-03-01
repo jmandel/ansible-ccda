@@ -1,0 +1,19 @@
+set username [lindex $argv 0]
+set password [lindex $argv 1]
+
+spawn telnet localhost 4555
+
+expect "Login id:\r"
+send "root\r"
+
+expect "Password:"
+send "adm1nD1r3ct\r";
+
+expect "HELP for a list of commands\r"
+send "deluser $username\r"
+
+expect -re {deleted|exist}
+send "adduser $username $password\r";
+
+expect "added\r"
+send "quit\r";

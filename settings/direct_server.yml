@@ -1,0 +1,33 @@
+---
+{
+  "direct_domain_name": "direct-puppet.smartplatforms.org",
+  "postmaster": "postmaster@direct-puppet.smartplatforms.org",
+  "email_users": [
+    {
+      "username": "alice",
+      "password": "aliceSecret"
+    },
+    {
+      "username": "bob",
+      "password": "bobSecret"
+    },
+  ],
+  "certificate": {
+     "country": "US",
+     "state": "MA",
+     "org": "SMART Platforms"
+   },
+   "trust_bundles": [
+     {
+        "name": "Patient Test Bundle",
+        "url": "https://secure.bluebuttontrust.org/p7b.ashx?id=4d9daaf9-384a-e211-8bc3-78e3b5114607" 
+     },
+     {
+     "name": "Provider Test Bundle",
+     "url": "https://secure.bluebuttontrust.org/p7b.ashx?id=cb300117-3a4a-e211-8bc3-78e3b5114607"
+     }
+   ],
+  "incoming_mail_dir": "/opt/direct/incoming",
+  "java_home": "/usr/lib/jvm/java-7-openjdk-amd64",
+  "jri_zip_file": "http://repo2.maven.org/maven2/org/nhind/direct-project-stock/2.1/direct-project-stock-2.1.tar.gz"
+} 

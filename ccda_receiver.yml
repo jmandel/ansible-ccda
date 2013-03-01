@@ -1,0 +1,121 @@
+- name: Firewall | Allow web ports
+  tags: firewall
+  action: command ufw allow $item 
+  with_items: ["80", "3000", "3001"]
+
+- name: Node.js | Add the node.js PPA
+  action: command add-apt-repository -y ppa:chris-lea/node.js
+          creates=/etc/apt/sources.list.d/chris-lea-node_js-${ansible_lsb.codename}.list
+  register: added_node_ppa
+
+- name: Node.js | Update the apt cache for the new repository
+  action: apt update_cache=yes
+  when_boolean: ${added_node_ppa.changed}
+
+- name: Node.js | Install nodejs and npm
+  tags: nodejs
+  action: apt pkg=$item state=installed
+  when_boolean: ${added_node_ppa.changed}
+  with_items:
+    - nodejs
+    - npm
+    - nodejs-dev
+
+- name: Mongodb | Add the Mongodb key
+  action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+  tags: mongodb
+
+- name: Mongodb | Add the Mongodb repo
+  tags: mongodb
+  action: copy 
+          src=files/etc/apt/sources.list.d/10gen.list
+          dest=/etc/apt/sources.list.d/10gen.list
+          owner=root group=root mode=0644
+  register: added_mongo_ppa
+
+- name: Mongodb | Install packages
+  action: apt pkg=mongodb-10gen state=installed update_cache=yes
+  when_boolean: ${added_mongo_ppa.changed}
+  tags: mongodb
+
+- name: CCDA-R | Install packages
+  tags: ccda-receiver
+  action: apt pkg=$item state=installed
+  with_items:
+    - libxml2-dev
+    - python-software-properties
+    - g++
+    - make
+
+- name: CCDA-R | git clone
+  tags: ccda-receiver
+  action: git repo=https://github.com/chb/json_ccda
+              dest=/opt/ccda-receiver
+              version=HEAD
+
+- name: CCDA-R | npm install dependencies
+  tags: ccda-receiver
+  action: command npm install
+          chdir=/opt/ccda-receiver
+
+- name: CCDA-R | copy rxnorm concepts
+  tags: ccda-receiver-mongo
+  action: copy 
+          src=files/rxnorm-mongo.tgz
+          dest=/tmp/install/rxnorm-mongo.tgz
+          owner=root group=root mode=0644
+
+- name: CCDA-R | extract rxnorm concepts
+  tags: ccda-receiver-mongo
+  action: command tar -xzvf rxnorm-mongo.tgz
+          chdir=/tmp/install
+
+- name: CCDA-R | restore rxnorm concepts
+  tags: ccda-receiver-mongo
+  action: command mongorestore /tmp/install/dump --drop
+
+
+- name: CCDA-R | startup scripts
+  tags: ccda-receiver
+  action: template 
+          src=templates/ccda_receiver/upstart/${item}.j2
+          dest=/etc/init/$item
+          owner=root group=root mode=0644
+  with_items:
+    - ccda-receiver.conf
+    - ccda-receiver-apps.conf
+
+- name: CCDA-R | install default apps script - run
+  tags: ccda-receiver
+  action: command node tasks/bootstrap chdir=/opt/ccda-receiver
+  environment:
+    PUBLIC_URI: ${ccda_receiver_url}
+    APP_SERVER: ${ccda_receiver_apps_url}
+
+- name: CCDA-R | run servers
+  tags: ccda-receiver
+  action: service name=$item state=running
+  with_items: 
+    - ccda-receiver
+    - ccda-receiver-apps
+
+- name: CCDA-R | create sample data dir
+  tags: ccda-receiver
+  action: file path=/tmp/install/sample_ccdas/ state=directory
+
+- name: CCDA-R | copy sample patient data
+  tags: ccda-receiver
+  action: copy src=$item dest=/tmp/install/sample_ccdas/
+  with_fileglob: files/sample_ccdas/*.xml
+
+- name: CCDA-R | list sample files
+  tags: ccda-receiver
+  action: split_sample_filename name=$item
+  with_fileglob: files/sample_ccdas/*.xml
+  register: to_post
+
+- name: CCDA-R | install sample patients
+  tags: ccda-receiver
+  action: command curl -X POST -d @${item.file} ${ccda_receiver_url}/internal/addPatient/${item.pid}
+          chdir=/tmp/install/sample_ccdas
+  with_items:  ${to_post.results}

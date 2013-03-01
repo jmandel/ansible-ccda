@@ -1,0 +1,128 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# (c) 2013, Oscar Korz <okorz001@gmail.com>
+#
+# This file is part of Ansible
+#
+# Ansible is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Ansible is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+
+# TODO: docs
+DOCUMENTATION='''
+'''
+
+def idiotproof(module, params):
+    # Force user to specify at least one of the following keys as this likely
+    # indicates that an error has been made. Otherwise, this module would
+    # insert a rule for all packets! Note that is this behavior is desired,
+    # users can specify either from=any or to=any to override this check.
+    keys = {'dir', 'from', 'from_port', 'to', 'to_port'}
+    for key in keys:
+        if params[key] != None:
+            return
+
+    msg = "At least one of the following keys is required: "
+    msg += ", ".join(keys)
+    module.fail_json(msg=msg)
+
+def main():
+    spec = {}
+    spec['state'] = dict(default='present', choices=['absent', 'present'])
+    spec['insert'] = dict(default=None)
+    spec['policy'] = dict(required=True)
+    spec['dir'] = dict(default=None)
+    spec['iface'] = dict(default=None)
+    spec['log'] = dict(default='no', choices=['no', 'yes', 'all'])
+    spec['proto'] = dict(default=None)
+    # from cannot be used a keyword arg to dict().
+    spec['from'] = dict(default=None)
+    spec['from_port'] = dict(default=None)
+    spec['to'] = dict(default=None)
+    spec['to_port'] = dict(default=None)
+
+    module = AnsibleModule(argument_spec=spec)
+    params = module.params
+
+    idiotproof(module, params)
+
+    # Build argument vector.
+    # Find ufw, or fail.
+    cmd = [module.get_bin_path('ufw', required="True")]
+
+    # Delete?
+    if params["state"] == 'absent':
+        cmd.append("delete")
+
+    # Insert NUM.
+    if params["insert"] != None:
+        cmd.append("insert")
+        cmd.append(params["insert"])
+
+    # Policy.
+    cmd.append(params["policy"])
+
+    # Direction.
+    if params["dir"] != None:
+        cmd.append(params["dir"])
+
+    # Interface.
+    if params["iface"] != None:
+        cmd.append("on")
+        cmd.append(params["iface"])
+
+    # Logging.
+    if params["log"] == 'yes':
+        cmd.append("log")
+    elif params["log"] == 'all':
+        cmd.append("log-all")
+
+    # Protocol.
+    if params['proto'] != None:
+        cmd.append("proto")
+        cmd.append(params["proto"])
+
+    # From address. Defaults to any.
+    cmd.append("from")
+    cmd.append("any" if params["from"] == None else params["from"])
+
+    # From port.
+    if params['from_port'] != None:
+        cmd.append("port")
+        cmd.append(params["from_port"])
+
+    # To address. Defaults to any.
+    cmd.append("to")
+    cmd.append("any" if params["to"] == None else params["to"])
+
+    # To port.
+    if params['to_port'] != None:
+        cmd.append("port")
+        cmd.append(params["to_port"])
+
+    # Run the command, and abort if rc != 0
+    rc, out, err = module.run_command(cmd, check_rc=True)
+
+    result = {}
+
+    # Make this more readable.
+    result['cmd'] = " ".join(cmd)
+
+    # If either IPv4 or IPv6 rules were updated, status has changed.
+    result['changed'] = "Rules updated" in out
+
+    module.exit_json(**result)
+
+# this is magic, see lib/ansible/module_common.py
+#<<INCLUDE_ANSIBLE_MODULE_COMMON>>
+main()

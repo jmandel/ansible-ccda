@@ -1,0 +1,34 @@
+---
+- name: General | Install required packages.
+  action: apt pkg=$item state=installed update_cache=yes
+  tags: common
+  with_items:
+    - python-software-properties
+    - g++
+    - make
+    - curl
+    - ufw
+
+- name: General | Firewall reset
+  tags: firewall
+  action: shell yes | ufw reset --force
+
+- name: General | Firewall deny all
+  tags: firewall
+  action: command ufw default deny
+
+- name: Direct | Firewall allow ssh
+  tags: firewall
+  action: command ufw allow 22
+
+- name: General | Firewall
+  tags: firewall
+  action: shell yes | ufw enable
+
+- name: General | Installer temp dir
+  action: file path=/tmp/install/ state=directory
+
+- name: General | MOTD for Ansible
+  action: copy src=files/etc/update-motd.d/95-ansible dest=/etc/update-motd.d/95-ansible mode=755
+  tags: common
+
