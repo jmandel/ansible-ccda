@@ -1,4 +1,4 @@
-# Configuration Management for Direct Server + SMART C-CDA Receiver
+# Auto-Configuration for Direct Server + SMART C-CDA Receiver
 
 Use these scripts to get a fresh Ubuntu 12.10 machine up and running with:
  * Direct Java Reference Implementation version 2.1
@@ -9,8 +9,8 @@ Use these scripts to get a fresh Ubuntu 12.10 machine up and running with:
 
 Everything runs on your VM, including the ansible installer scripts. (Note that
 ansible also supports an ssh-based remote configuraiton mode, where all the
-installer scripts run on your personal computer and are pushed the the VM when
-you specify remote hosts and run `ansible-playbook`.)
+installer scripts run elsewhere and are pushed the the VM when you specify 
+remote hosts and run `ansible-playbook`.)
 
 We'll focus on local mode, since it's simpler (and only requires a single machine).
 
