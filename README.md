@@ -20,7 +20,12 @@ We'll focus on local mode, since it's simpler (and only requires a single machin
 
 ```
 # Install package dependencies
-apt-get -y install git make python-yaml python-jinja2 python-paramiko
+apt-get -y install git \
+                   make \
+                   python-yaml \
+                   python-jinja2 \
+                   python-paramiko \
+                   software-properties-common
 
 # Install Ansible
 git clone git://github.com/ansible/ansible.git
