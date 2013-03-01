@@ -20,9 +20,9 @@ We'll focus on local mode, since it's simpler (and only requires a single machin
 
 ```
 # Install Ansible
-add-apt-repository ppa:rquillo/ansible
-apt-get update
-apt-get install ansible -y
+git clone git://github.com/ansible/ansible.git
+cd ansible
+make install
 
 # Grab this playbook (the one whose README you're reading now)
 git clone https://github.com/jmandel/ansible-ccda 
@@ -32,7 +32,11 @@ cd ansible-ccda
 # (Go on... we'll wait.)
 
 # Run the playbook
-ansible-playbook -i hosts playbook.yml -v
+#  -c local         use a local connection
+#  -i hosts         uses hosts defined in the `hosts` file
+#  -v               verbose mode for better error reporting
+#  playbook.yml     the top-level install script
+ansible-playbook -c local -i hosts -v playbook.yml
 ```
 
 ### Config files
