@@ -1,9 +1,9 @@
 # Auto-Configuration for Direct Server + SMART C-CDA Receiver
 
 Use these scripts to get a fresh Ubuntu 12.10 machine up and running with:
- * Direct Java Reference Implementation version 2.1
- * SMART Consolidated CDA Receiver
- * SMART reDirect (push e-mail attachments into the Receiver)
+ * Direct Java Reference Implementation [version 2.1](http://wiki.directproject.org/message/view/Java+Reference+Implementation/60702540)
+ * SMART [Consolidated CDA Receiver](https://github.com/chb/json_ccda) 
+ * SMART [reDirect](https://github.com/jmandel/ccda-receiver-direct-connector) (push e-mail attachments into the Receiver)
 
 ##  VM-only ("ansible local")  mode
 
