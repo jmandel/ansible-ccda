@@ -17,7 +17,7 @@
   tags: firewall
   action: command ufw default deny
 
-- name: Direct | Firewall allow ssh
+- name: General | Firewall allow ssh
   tags: firewall
   action: command ufw allow 22
 

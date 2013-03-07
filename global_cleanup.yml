@@ -1,8 +1,3 @@
-- name: CCDA-R | cleanup tmp files
+- name: General | cleanup tmp files
   tags: ccda-receiver
   action: file path=/tmp/install state=absent
-  with_items: 
-    - /tmp/rxnorm-mongo.tgz
-    - /tmp/mongodb-dump
-    - /tmp/bootstrap-ccda.sh
-    - /tmp/sample_files
