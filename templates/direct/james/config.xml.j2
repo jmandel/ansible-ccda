@@ -415,6 +415,13 @@
          <!-- Important check to avoid looping -->
          <mailet match="RelayLimit=30" class="Null"/>
 
+	 {% if catchall %}
+  	 <mailet match="RecipientIs=catchall@{{direct_domain_name}}" class="ToProcessor">
+		<debug>true</debug>
+		<processor>catchall</processor>
+	 </mailet>
+	 {% endif %}
+
          <!-- Check for viruses -->
          <!-- -->
          <!-- Does an antivirus scan check using a ClamAV daemon (CLAMD). -->
@@ -676,6 +683,12 @@ Regards, Postmaster XXX.YYY
          </mailet>
       </processor>
 
+      {% if catchall %}
+      <processor name="catchall">
+         <mailet match="All" class="LocalDelivery"/>
+      </processor>
+      {% endif %}
+
       <!-- The error processor is required.  James may internally set emails to the -->
       <!-- error state.  The error processor is generally invoked when there is an -->
       <!-- unexpected error either in the mailet chain or internal to James. -->
@@ -788,6 +801,13 @@ Regards, Postmaster XXX.YYY
             <ConfigURL>http://localhost:8081/config-service/ConfigurationService</ConfigURL>
             <EndpointURL>http://localhost:8081/xd/services/DocumentRepository_Service</EndpointURL>
          </mailet>
+
+	 {% if catchall %}
+  	 <mailet match="HostIsLocal" class="Forward">
+	  <forwardto>catchall@{{direct_domain_name}}</forwardto>
+	 </mailet>
+	 {% endif %}
+
 
          <!-- Is the recipient is for a local account, deliver it locally -->
          <mailet match="RecipientIsLocal" class="TimelyAndReliableLocalDelivery"/>

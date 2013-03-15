@@ -2,6 +2,7 @@
 {
   "direct_domain_name": "direct-ansible.smartplatforms.org",
   "postmaster": "postmaster@direct-ansible.smartplatforms.org",
+  "catchall": true,
   "email_users": [
     {
       "username": "alice",
