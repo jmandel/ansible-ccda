@@ -1,42 +1,10 @@
+- include tasks/node_mongo_tasks.yml
+
 - name: Firewall | Allow web ports
   tags: firewall
   action: command ufw allow $item 
   with_items: ["80", "3000", "3001"]
 
-- name: Node.js | Add the node.js PPA
-  action: command add-apt-repository -y ppa:chris-lea/node.js
-          creates=/etc/apt/sources.list.d/chris-lea-node_js-${ansible_lsb.codename}.list
-  register: added_node_ppa
-
-- name: Node.js | Update the apt cache for the new repository
-  action: apt update_cache=yes
-  when_boolean: ${added_node_ppa.changed}
-
-- name: Node.js | Install nodejs and npm
-  tags: nodejs
-  action: apt pkg=$item state=installed
-  when_boolean: ${added_node_ppa.changed}
-  with_items:
-    - nodejs
-    - npm
-    - nodejs-dev
-
-- name: Mongodb | Add the Mongodb key
-  action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-  tags: mongodb
-
-- name: Mongodb | Add the Mongodb repo
-  tags: mongodb
-  action: copy 
-          src=files/etc/apt/sources.list.d/10gen.list
-          dest=/etc/apt/sources.list.d/10gen.list
-          owner=root group=root mode=0644
-  register: added_mongo_ppa
-
-- name: Mongodb | Install packages
-  action: apt pkg=mongodb-10gen state=installed update_cache=yes
-  when_boolean: ${added_mongo_ppa.changed}
-  tags: mongodb
 
 - name: CCDA-R | Install packages
   tags: ccda-receiver
@@ -72,7 +40,7 @@
 
 - name: CCDA-R | restore rxnorm concepts
   tags: ccda-receiver-mongo
-  action: command mongorestore /tmp/install/dump --drop
+  action: command mongorestore /tmp/install/dump/rxnorm --drop
 
 
 - name: CCDA-R | startup scripts
@@ -123,13 +91,6 @@
   action: command curl -X POST -d @${item.file} http://127.0.0.1:3000/internal/addPatient/${item.pid}
           chdir=/tmp/install/sample_ccdas
   with_items:  ${to_post.results}
-
-
-- name: nginx | install packages
-  tags: nginx
-  action: apt pkg=$item state=installed
-  with_items:
-    - nginx
 
 - name: nginx | config file
   tags: nginx

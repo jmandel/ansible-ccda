@@ -1,5 +1,8 @@
 [ccda-receiver]
 127.0.0.1
 
+[ccda-scorecard]
+127.0.0.1
+
 [direct-server]
 127.0.0.1

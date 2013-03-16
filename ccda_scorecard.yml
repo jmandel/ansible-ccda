@@ -1,0 +1,65 @@
+- include tasks/node_mongo_tasks.yml
+ 
+- name: Firewall | Allow web ports
+  tags: firewall
+  action: command ufw allow $item 
+  with_items: ["80", "4000"]
+
+- name: CCDA-Scorecard | git clone
+  tags: ccda-scorecard
+  action: git repo=https://github.com/chb/ccdaScorecard
+              dest=/opt/ccda-scorecard
+              version=HEAD
+
+- name: CCDA-Scorecard | npm install dependencies
+  tags: ccda-scorecard
+  action: command npm install
+          chdir=/opt/ccda-scorecard
+
+- name: CCDA-Scorecard | copy umls concepts
+  tags: ccda-scorecard-mongo
+  action: copy 
+          src=files/umls-concepts-mongo.tgz
+          dest=/tmp/install/umls-concepts-mongo.tgz
+          owner=root group=root mode=0644
+
+- name: CCDA-Scorecard | extract umls concepts
+  tags: ccda-scorecard-mongo
+  action: command tar -xzvf umls-concepts-mongo.tgz
+          chdir=/tmp/install
+
+- name: CCDA-Scorecard | restore umls concepts
+  tags: ccda-scorecard-mongo
+  action: command mongorestore /tmp/install/dump/vocab --drop
+
+- name: CCDA-Scorecard | startup scripts
+  tags: ccda-scorecard
+  action: template 
+          src=templates/ccda_scorecard/upstart/${item}.j2
+          dest=/etc/init/$item
+          owner=root group=root mode=0644
+  with_items:
+    - ccda-scorecard.conf
+
+- name: CCDA-Scorecard | install default apps script - run
+  tags: ccda-scorecard
+  action: command node tasks/bootstrap.js chdir=/opt/ccda-scorecard
+  environment:
+    PUBLIC_URI: $ccda_scorecard_url
+
+- name: CCDA-Scorecard | run servers
+  tags: ccda-scorecard
+  action: service name=$item state=restarted
+  with_items: 
+    - ccda-scorecard
+
+- name: nginx | config file
+  tags: nginx
+  action: template 
+          src=templates/ccda_receiver/nginx/ccda-scorecard-site.j2
+          dest=/etc/nginx/sites-enabled/ccda-scorecard-site
+          owner=root group=root mode=0644
+
+- name: nginx | start service
+  tags: nginx
+  action: service name=nginx state=restarted

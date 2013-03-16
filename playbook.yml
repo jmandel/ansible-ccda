@@ -17,6 +17,14 @@
   tasks: 
     - include: ccda_receiver.yml
 
+### C-CDA Scorecard Server
+- hosts: ccda-scorecard
+  user: root
+  vars_files: 
+    - settings/ccda_scorecard.yml
+  tasks: 
+    - include: ccda_scorecard.yml
+
 ### Direct Servers
 - hosts: direct-server
   user: root
