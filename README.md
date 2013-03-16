@@ -1,8 +1,9 @@
-# Auto-Configuration for Direct Server + SMART C-CDA Receiver
+# Configuration Management for SMART C-CDA Tools
 
-Use these scripts to get a fresh Ubuntu 12.10 machine up and running with:
+Use these scripts to get a **fresh Ubuntu 12.10 machine** up and running with:
  * Direct Java Reference Implementation [version 2.1](http://wiki.directproject.org/message/view/Java+Reference+Implementation/60702540)
- * SMART [Consolidated CDA Receiver](https://github.com/chb/json_ccda) 
+ * SMART [Consolidated CDA Receiver](https://github.com/jmandel/json_ccda) (Expose a RESTful API on C-CDA data)
+ * SMART [C-CDA Scorecard](https://github.com/jmandel/ccdaScorecard) (Rate C-CDAs for adherence to best practices)
  * SMART [reDirect](https://github.com/jmandel/ccda-receiver-direct-connector) (push e-mail attachments into the Receiver)
 
 ##  VM-only ("ansible local")  mode
@@ -48,13 +49,19 @@ ansible-playbook -c local -i hosts -v playbook.yml
 * `playbook.yml`     the top-level [install script](playbook.yml)
 
 ### Config files
-There are two short files you'll need to edit:
+There are three short files you'll need to edit:
+
+**`hosts.yml`**
+If you want to install all three components (Direct, C-CDA Receiver, and C-CDA Scorecard), you're all set.
+
+If you'd rather leave some components out, just delete the relevant blocks from `hosts.yml`.  
 
 **`settings/ccda_receiver.yml`**
 Set up the URLs for your C-CDA Receiver.  You'll simply substitute your
 hostname for the default (`direct-ansible.smartplatforms.org`).
 
 For a complete example, see [settings/ccda_receiver.yml](settings/ccda_receiver.yml)
+
 
 **`settings/direct_server.yml`**
 Set up your Direct server.  You'll want to edit the default template to use
