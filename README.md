@@ -51,29 +51,42 @@ ansible-playbook -c local -i hosts -v playbook.yml
 ### Config files
 There are three short files you'll need to edit:
 
-**`hosts.yml`**
-If you want to install all three components (Direct, C-CDA Receiver, and C-CDA Scorecard), you're all set.
+---
 
-If you'd rather leave some components out, just delete the relevant blocks from `hosts.yml`.  
 
-**`settings/ccda_receiver.yml`**
+##### `settings/ccda_receiver.yml`
 Set up the URLs for your C-CDA Receiver.  You'll simply substitute your
-hostname for the default (`direct-ansible.smartplatforms.org`).
+hostname for the default.
 
-For a complete example, see [settings/ccda_receiver.yml](settings/ccda_receiver.yml)
+For a complete example, see [settings/ccda_receiver.yml](settings/ccda_receiver.yml).
 
+---
 
-**`settings/direct_server.yml`**
+##### `settings/direct_server.yml`
 Set up your Direct server.  You'll want to edit the default template to use
 your VM's fully qualified domain name, then enter your organization's detail in
 the "certificate" field.  Finally, this is your opportunity to pre-configure
 any end-user Direct email accounts you need (supplying a username and a
 password for each)
 
-For a complete example, see [settings/direct_server.yml](settings/direct_server.yml)
+For a complete example, see [settings/direct_server.yml](settings/direct_server.yml).
+
+---
+
+##### `hosts`
+If you want to install all three components (Direct, C-CDA Receiver, and C-CDA Scorecard), you're all set.
+
+If you'd rather leave some components out, just delete the relevant blocks.
+
+For a complete example, see [hosts](hosts).
+
+---
 
 ##  Remote mode
-TODO
+To install against a remote host, you'll:
+ * install ansible on your local "control" machine
+ * modify the `hosts` file to point to a remote machine
+ * Run `ansible-playbook  -i hosts -v playbook.yml`
 
 
 ## Configuring external DNS
