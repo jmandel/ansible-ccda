@@ -1,4 +1,4 @@
-- include tasks/node_mongo_tasks.yml
+- include: tasks/node_mongo_tasks.yml
 
 - name: Firewall | Allow web ports
   tags: firewall

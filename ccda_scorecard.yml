@@ -1,4 +1,4 @@
-- include tasks/node_mongo_tasks.yml
+- include: tasks/node_mongo_tasks.yml
  
 - name: Firewall | Allow web ports
   tags: firewall
@@ -41,25 +41,8 @@
   with_items:
     - ccda-scorecard.conf
 
-- name: CCDA-Scorecard | install default apps script - run
-  tags: ccda-scorecard
-  action: command node tasks/bootstrap.js chdir=/opt/ccda-scorecard
-  environment:
-    PUBLIC_URI: $ccda_scorecard_url
-
 - name: CCDA-Scorecard | run servers
   tags: ccda-scorecard
   action: service name=$item state=restarted
   with_items: 
     - ccda-scorecard
-
-- name: nginx | config file
-  tags: nginx
-  action: template 
-          src=templates/ccda_receiver/nginx/ccda-scorecard-site.j2
-          dest=/etc/nginx/sites-enabled/ccda-scorecard-site
-          owner=root group=root mode=0644
-
-- name: nginx | start service
-  tags: nginx
-  action: service name=nginx state=restarted

@@ -9,8 +9,9 @@ respawn
 respawn limit 10 5
 
 env PUBLIC_URI={{ccda_scorecard_url}}
+env VMC_APP_PORT=4000
 
 script
-    chdir /opt/ccda-scorecard/smart-apps
+    chdir /opt/ccda-scorecard
     exec node launch.js
 end script
