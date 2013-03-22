@@ -2,8 +2,8 @@
 
 Use these scripts to get a **fresh Ubuntu 12.10 machine** up and running with:
  * Direct Java Reference Implementation [version 2.1](http://wiki.directproject.org/message/view/Java+Reference+Implementation/60702540)
- * SMART [Consolidated CDA Receiver](https://github.com/jmandel/json_ccda) (Expose a RESTful API on C-CDA data)
- * SMART [C-CDA Scorecard](https://github.com/jmandel/ccdaScorecard) (Rate C-CDAs for adherence to best practices)
+ * SMART [Consolidated CDA Receiver](https://github.com/chb/ccdaReceiver) (Expose a RESTful API on C-CDA data)
+ * SMART [C-CDA Scorecard](https://github.com/chb/ccdaScorecard) (Rate C-CDAs for adherence to best practices)
  * SMART [reDirect](https://github.com/jmandel/ccda-receiver-direct-connector) (push e-mail attachments into the Receiver)
 
 ##  VM-only ("ansible local")  mode
