@@ -22,8 +22,6 @@
   when_boolean: ${added_node_ppa.changed}
   with_items:
     - nodejs
-    - npm
-    - nodejs-dev
 
 - name: Mongodb | Add the Mongodb key
   action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10

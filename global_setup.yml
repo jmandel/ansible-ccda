@@ -8,6 +8,7 @@
     - make
     - curl
     - ufw
+    - python-httplib2
 
 - name: General | Firewall reset
   tags: firewall
