@@ -20,11 +20,7 @@
   register: ec2_public_ip 
 
 - name: Register EC2 IP
-  action: command echo {{ec2_public_ip.content|default(ansible_default_ipv4.address)}}
-  register: public_ip
-
-- name: Public ip
-  action: debug msg="Public ip {{public_ip}}"
+  action: set_fact public_ip="{{ec2_public_ip.content|default(ansible_default_ipv4.address)}}"
 
 - name: Direct | PIP packagse
   action: pip name=$item
