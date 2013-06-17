@@ -1,6 +1,7 @@
+- include: tasks/nodejs.yml
+
 - name: Direct | Install required packages.
   action: apt pkg=$item state=installed update_cache=yes
-  tags: direct
   with_items: ["ant",
      "unzip",
      "expect",
@@ -10,6 +11,7 @@
      "netcat",
      "openssl",
      "libssl-dev"]
+
 - name: Get EC2 Public IP if applicable
   action: uri url=http://169.254.169.254/latest/meta-data/public-ipv4 
       timeout=2
@@ -29,7 +31,6 @@
   with_items: ["suds", "pyopenssl", "dnspython"]
 
 - name: Direct | Firewall allow ssh
-  tags: firewall
   action: command ufw allow $item 
   with_items: ["22", "53", "25", "995", "465"]
 
@@ -97,11 +98,9 @@
   action: get_url url=http://localhost:8081/config-service/ dest=/dev/null force=yes
 
 - name: Direct | installer temp directory
-  tags: dns
   action: file path=/tmp/install/direct/config_client_py state=directory
 
 - name: Direct | copy python config client
-  tags: dns
   action: copy src=$item dest=/tmp/install/direct/config_client_py/
   with_fileglob: files/direct/config_client_py/*.py
 
@@ -139,11 +138,9 @@
           chdir=/tmp/install/direct/config_client_py
 
 - name: Direct | Create certs directory
-  tags: grabber
   action: file path=/opt/direct/certificates state=directory
 
 - name: Direct | Copy certs out of tmp
-  tags: grabber
   action: command cp -r $item .
           chdir=/opt/direct/certificates
   with_items: 
@@ -153,7 +150,6 @@
     - /tmp/install/direct/rsa-key.pem
 
 - name: Direct | Add DNS Records
-  tags: dns
   action: command python add_dns.py $item
                   $direct_domain_name 
                   ${ansible_default_ipv4.address}
@@ -173,8 +169,7 @@
           chdir=/tmp/install/direct
   with_items: $email_users
 
-- name: SMART reDirect | Create directory
-  tags: grabber
+- name: CCDA reDirect | Create incoming mail directory
   action: file path=$incoming_mail_dir state=directory
 
 - name: Direct | Config save incoming messages
@@ -182,27 +177,22 @@
           chdir=/tmp/install/direct/config_client_py
   when_set: $incoming_mail_dir
 
-- name: SMART reDirect | Create directory
-  tags: grabber
-  action: file path=/opt/direct-grabber/progress state=directory
+- name: CCDA reDirect | Create progress directory
+  action: file path=/opt/ccda-reDirect/progress state=directory
 
-- name: SMART reDirect | Clone repo
-  tags: grabber
-  action: git repo=https://github.com/jmandel/ccda-receiver-direct-connector
-              dest=/opt/direct-grabber/bin
+- name: CCDA reDirect | Clone repo
+  action: git repo=https://github.com/jmandel/ccda-reDirect
+              dest=/opt/ccda-reDirect/bin
               version=HEAD
 
-- name: SMART reDirect | npm dependencies
-  tags: grabber
+- name: CCDA reDirect | npm dependencies
   action: command npm install
-          chdir=/opt/direct-grabber/bin
+          chdir=/opt/ccda-reDirect/bin
 
-- name: SMART reDirect | Upstart
-  tags: grabber-go
+- name: CCDA reDirect | Upstart
   action: template
-          src=templates/direct/upstart/direct-grabber.conf.j2
-          dest=/etc/init/direct-grabber.conf
+          src=templates/direct/upstart/ccda-reDirect.conf.j2
+          dest=/etc/init/ccda-reDirect.conf
 
-- name: SMART reDirect | start service
-  tags: grabber-go
-  action: service name=direct-grabber state=restarted
+- name: CCDA reDirect | start service
+  action: service name=ccda-reDirect state=restarted

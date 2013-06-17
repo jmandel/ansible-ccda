@@ -32,4 +32,3 @@
 - name: General | MOTD for Ansible
   action: copy src=files/etc/update-motd.d/95-ansible dest=/etc/update-motd.d/95-ansible mode=755
   tags: common
-

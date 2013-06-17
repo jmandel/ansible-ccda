@@ -1,5 +1,6 @@
 ---
 {
+  "ccda_post_url": "http://localhost:4001/incoming/ccda/for/{to}",
   "direct_domain_name": "direct-ansible.smartplatforms.org",
   "postmaster": "postmaster@direct-ansible.smartplatforms.org",
   "catchall": true,
@@ -28,7 +29,6 @@
      "url": "https://secure.bluebuttontrust.org/p7b.ashx?id=cb300117-3a4a-e211-8bc3-78e3b5114607"
      }
    ],
-  "incoming_mail_dir": "/opt/direct/incoming",
   "java_home": "/usr/lib/jvm/java-7-openjdk-amd64",
   "jri_zip_file": "http://repo2.maven.org/maven2/org/nhind/direct-project-stock/2.1/direct-project-stock-2.1.tar.gz"
 } 

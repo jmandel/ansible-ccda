@@ -5,6 +5,6 @@ echo " ********************************************************"
 echo " * This server is configured using Ansible."
 echo " * To change configuration, modify playbook settings"
 echo " * and re-apply.  Do not manually edit files."
-echo " * See https://github.com/jmandel/ansible-ccda"
+echo " * See https://github.com/jmandel/ansible-ccda-reDirect"
 echo " ********************************************************"
 echo
