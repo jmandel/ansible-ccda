@@ -1,7 +1,7 @@
 - include: tasks/nodejs.yml
 
 - name: Direct | Install required packages.
-  action: apt pkg=$item state=installed update_cache=yes
+  action: apt pkg={{item}} state=installed update_cache=yes
   with_items: ["ant",
      "unzip",
      "expect",
@@ -23,21 +23,21 @@
   action: set_fact public_ip="{{ec2_public_ip.content|default(ansible_default_ipv4.address)}}"
 
 - name: Direct | PIP packagse
-  action: pip name=$item
+  action: pip name={{item}}
   with_items: ["suds", "pyopenssl", "dnspython"]
 
 - name: Direct | Firewall allow ssh
-  action: command ufw allow $item 
+  action: command ufw allow {{item}} 
   with_items: ["22", "53", "25", "995", "465"]
 
 - name: Direct | Java policies
-  action: copy src=files/direct/java/$item dest=$java_home/jre/lib/security/$item
+  action: copy src=files/direct/java/{{item}} dest={{java_home}}/jre/lib/security/{{item}}
   with_items:
     - US_export_policy.jar
     - local_policy.jar
 
 - name: Direct | Get J-RI .tgz
-  action: get_url url=$jri_zip_file dest=/tmp/install/direct-stock.tgz
+  action: get_url url={{jri_zip_file}} dest=/tmp/install/direct-stock.tgz
 
 - name: Direct | Extract J-RI
   action: command tar -xzvf /tmp/install/direct-stock.tgz
@@ -62,8 +62,8 @@
 
 - name: Direct | James config 
   action: template
-          src=templates/direct/james/$item.j2
-          dest=/opt/direct/james-2.3.2/apps/james/SAR-INF/$item
+          src=templates/direct/james/{{item}}.j2
+          dest=/opt/direct/james-2.3.2/apps/james/SAR-INF/{{item}}
   with_items:
     - config.xml
     - environment.xml
@@ -97,17 +97,17 @@
   action: file path=/tmp/install/direct/config_client_py state=directory
 
 - name: Direct | copy python config client
-  action: copy src=$item dest=/tmp/install/direct/config_client_py/
+  action: copy src={{item}} dest=/tmp/install/direct/config_client_py/
   with_fileglob: files/direct/config_client_py/*.py
 
 - name: Direct | copy additional install scripts
-  action: copy src=files/direct/$item dest=/tmp/install/direct/$item
+  action: copy src=files/direct/{{item}} dest=/tmp/install/direct/{{item}}
   with_items:
     - add_email_user.expect
     - gencert.sh
 
 - name: Direct | Python config client
-  action: command python add_domain.py $direct_domain_name $postmaster
+  action: command python add_domain.py {{direct_domain_name}} {{postmaster}}
           chdir=/tmp/install/direct/config_client_py
 
 - name: Direct | Start James
@@ -118,8 +118,8 @@
 
 - name: Direct | Certificate generation templates
   action: template
-          src=templates/direct/certificates/$item.j2
-          dest=/tmp/install/direct/$item
+          src=templates/direct/certificates/{{item}}.j2
+          dest=/tmp/install/direct/{{item}}
   with_items: 
     - req-config
     - sign-config
@@ -137,7 +137,7 @@
   action: file path=/opt/direct/certificates state=directory
 
 - name: Direct | Copy certs out of tmp
-  action: command cp -r $item .
+  action: command cp -r {{item}} .
           chdir=/opt/direct/certificates
   with_items: 
     - /tmp/install/direct/certificate.pem
@@ -146,9 +146,9 @@
     - /tmp/install/direct/rsa-key.pem
 
 - name: Direct | Add DNS Records
-  action: command python add_dns.py $item
-                  $direct_domain_name 
-                  ${ansible_default_ipv4.address}
+  action: command python add_dns.py {{item}}
+                  {{direct_domain_name}} 
+                  {{ansible_default_ipv4.address}}
           chdir=/tmp/install/direct/config_client_py
   with_items: ["MX", "A"]
 
@@ -156,22 +156,23 @@
   action: wait_for port=4555 delay=3 state=started timeout=30
 
 - name: Direct | Add Trust Bundles
-  action: command python add_trust_bundle.py "${item.name}" "${item.url}"
+  action: command python add_trust_bundle.py "{{item.name}}" "{{item.url}}"
           chdir=/tmp/install/direct/config_client_py
-  with_items: $trust_bundles
+  with_items: trust_bundles
 
 - name: Direct | Add Email Accounts
-  action: command expect add_email_user.expect ${item.username} ${item.password}
+  action: command expect add_email_user.expect {{item.username}} {{item.password}}
           chdir=/tmp/install/direct
-  with_items: $email_users
+  with_items: email_users
 
 - name: CCDA reDirect | Create incoming mail directory
-  action: file path=$incoming_mail_dir state=directory
+  action: file path={{incoming_mail_dir}} state=directory
+  when: incoming_mail_dir
 
 - name: Direct | Config save incoming messages
-  action: command python add_setting.py IncomingMessageSaveFolder $incoming_mail_dir
+  action: command python add_setting.py IncomingMessageSaveFolder {{incoming_mail_dir}}
           chdir=/tmp/install/direct/config_client_py
-  when_set: $incoming_mail_dir
+  when: incoming_mail_dir
 
 - name: CCDA reDirect | Create progress directory
   action: file path=/opt/ccda-reDirect/progress state=directory
