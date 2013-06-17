@@ -2,9 +2,7 @@
 
 Use these scripts to get a **fresh Ubuntu 12.10 machine** up and running with:
  * Direct Java Reference Implementation [version 2.1](http://wiki.directproject.org/message/view/Java+Reference+Implementation/60702540)
- * SMART [Consolidated CDA Receiver](https://github.com/chb/ccdaReceiver) (Expose a RESTful API on C-CDA data)
- * SMART [C-CDA Scorecard](https://github.com/chb/ccdaScorecard) (Rate C-CDAs for adherence to best practices)
- * SMART [reDirect](https://github.com/jmandel/ccda-receiver-direct-connector) (push e-mail attachments into the Receiver)
+ * SMART's C-CDA [reDirect](https://github.com/jmandel/ccda-reDirect) (push e-mail attachments into the Receiver)
 
 ##  VM-only ("ansible local")  mode
 
@@ -53,32 +51,34 @@ There are three short files you'll need to edit:
 
 ---
 
-
-##### `settings/ccda_receiver.yml`
-Set up the URLs for your C-CDA Receiver.  You'll simply substitute your
-hostname for the default.
-
-For a complete example, see [settings/ccda_receiver.yml](settings/ccda_receiver.yml).
-
----
-
 ##### `settings/direct_server.yml`
 Set up your Direct server.  You'll want to edit the default template to use
 your VM's fully qualified domain name, then enter your organization's detail in
-the "certificate" field.  Finally, this is your opportunity to pre-configure
+the "certificate" field.  This is also your opportunity to pre-configure
 any end-user Direct email accounts you need (supplying a username and a
 password for each)
+
+You'll want to pay special attention to two settings that make SMART C-CDA reDirect work:
+
+* `CCDA_POST_URL` tells SMART C-CDA reDirect where C-CDA attachments should be sent.
+It can be a simple URL like `http://my-server/incoming/ccda` or it 
+can be a URL template with access to two variables:
+`to` (email recipient address) and `from` (email sender address).
+For example, you could use 
+`http://my-server/incoming/ccda/for-direct-address/{to}` if your server
+expets to partition C-CDA documents by Direct address.
+
+* `catchall: true` allows your Direct server to work in "catchall" mode,
+where Direct e-mail to `*@yourdomain` will be handled automatically  If catchall mode is disabled,
+your Direct server will only be able to receive messages to pre-configured users.
 
 For a complete example, see [settings/direct_server.yml](settings/direct_server.yml).
 
 ---
 
 ##### `hosts`
-If you want to install all three components (Direct, C-CDA Receiver, and C-CDA Scorecard), you're all set.
-
-If you'd rather leave some components out, just delete the relevant blocks.
-
-For a complete example, see [hosts](hosts).
+Default installs on the local machine.
+If you want to install the stack on a remote host, edit `hosts` as needed. (See below.)
 
 ---
 
