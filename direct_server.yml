@@ -166,13 +166,11 @@
   with_items: email_users
 
 - name: CCDA reDirect | Create incoming mail directory
-  action: file path={{incoming_mail_dir}} state=directory
-  when: incoming_mail_dir is defined
+  action: file path=/opt/direct/incoming state=directory
 
 - name: Direct | Config save incoming messages
-  action: command python add_setting.py IncomingMessageSaveFolder {{incoming_mail_dir}}
+  action: command python add_setting.py IncomingMessageSaveFolder /opt/direct/incoming
           chdir=/tmp/install/direct/config_client_py
-  when: incoming_mail_dir is defined
 
 - name: CCDA reDirect | Create progress directory
   action: file path=/opt/ccda-reDirect/progress state=directory
