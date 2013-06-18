@@ -123,18 +123,22 @@
   with_items: 
     - req-config
     - sign-config
+  when: certificate_file is not defined
 
 - name: Direct | Generate certificates
   action: command sh gencert.sh
           chdir=/tmp/install/direct
+  when: certificate_file is not defined
 
 - name: Direct | Add certificate
   action: command python add_certificate.py
                   /tmp/install/direct/cert-with-key-package.p12
           chdir=/tmp/install/direct/config_client_py
+  when: certificate_file is not defined
 
 - name: Direct | Create certs directory
   action: file path=/opt/direct/certificates state=directory
+  when: certificate_file is not defined
 
 - name: Direct | Copy certs out of tmp
   action: command cp -r {{item}} .
@@ -144,6 +148,12 @@
     - /tmp/install/direct/certificate.der
     - /tmp/install/direct/cert-with-key-package.p12
     - /tmp/install/direct/rsa-key.pem
+  when: certificate_file is not defined
+
+- name: Direct | Add certificate
+  action: command python add_certificate.py {{pkcs12_certificate_file}}
+          chdir=/tmp/install/direct/config_client_py
+  when: certificate_file is defined
 
 - name: Direct | Add DNS Records
   action: command python add_dns.py {{item}}
