@@ -148,7 +148,7 @@
 - name: Direct | Add DNS Records
   action: command python add_dns.py {{item}}
                   {{direct_domain_name}} 
-                  {{ansible_default_ipv4.address}}
+                  {{public_ip}}
           chdir=/tmp/install/direct/config_client_py
   with_items: ["MX", "A"]
 
