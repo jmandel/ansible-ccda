@@ -1,19 +1,13 @@
 ---
 {
   "ccda_post_url": "http://localhost:4001/incoming/ccda/for/{to}",
-  "direct_domain_name": "direct-ansible.smartplatforms.org",
-  "postmaster": "postmaster@direct-ansible.smartplatforms.org",
+  "direct_domain_name": "direct.growth.smartplatforms.org",
+  "postmaster": "postmaster@direct.growth.smartplatforms.org",
   "catchall": true,
-  "email_users": [
-    {
-      "username": "alice",
-      "password": "aliceSecret"
-    },
-    {
-      "username": "bob",
-      "password": "bobSecret"
-    },
-  ],
+  "email_users": [{
+      "username": "catchall",
+      "password": "password"
+    }],
   "certificate": {
      "country": "US",
      "state": "MA",

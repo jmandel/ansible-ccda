@@ -416,7 +416,7 @@
          <mailet match="RelayLimit=30" class="Null"/>
 
 	 {% if catchall %}
-  	 <mailet match="RecipientIs=catchall@{{direct_domain_name}}" class="ToProcessor">
+	 <mailet match="RecipientIs={{email_users[0].username}}@{{direct_domain_name}}" class="ToProcessor">
 		<debug>true</debug>
 		<processor>catchall</processor>
 	 </mailet>
@@ -804,7 +804,7 @@ Regards, Postmaster XXX.YYY
 
 	 {% if catchall %}
   	 <mailet match="HostIsLocal" class="Forward">
-	  <forwardto>catchall@{{direct_domain_name}}</forwardto>
+	   <forwardto>{{email_users[0].username}}@{{direct_domain_name}}</forwardto>
 	 </mailet>
 	 {% endif %}
 
