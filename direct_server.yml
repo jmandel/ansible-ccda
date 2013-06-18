@@ -151,7 +151,7 @@
   when: certificate_file is not defined
 
 - name: Direct | Add certificate
-  action: command python add_certificate.py {{pkcs12_certificate_file}}
+  action: command python add_certificate.py {{certificate_file}}
           chdir=/tmp/install/direct/config_client_py
   when: certificate_file is defined
 
