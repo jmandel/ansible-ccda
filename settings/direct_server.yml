@@ -1,8 +1,8 @@
 ---
 {
   "ccda_post_url": "http://localhost:4001/incoming/ccda/for/{to}",
-  "direct_domain_name": "direct.growth.smartplatforms.org",
-  "postmaster": "postmaster@direct.growth.smartplatforms.org",
+  "direct_domain_name": "direct.growth.bluebuttonpl.us",
+  "postmaster": "postmaster@direct.growth.bluebuttonpl.us",
   "catchall": true,
   "email_users": [{
       "username": "catchall",
