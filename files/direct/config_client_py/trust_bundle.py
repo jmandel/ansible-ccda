@@ -16,15 +16,18 @@ class TrustBundle(object):
         tb.bundleName = self.name
         tb.bundleURL = self.url
         tb.refreshInterval = self.refresh_interval
-        
+       	print "adding %s"%self.name 
         existing= client.service.getTrustBundleByName(self.name)
-        if (existing): client.service.deleteTrustBundles(existing.id)
+        if (existing): 
+            client.service.deleteTrustBundles(existing.id)
+            print "Deleted existing %s"%existing.id
         
         client.service.addTrustBundle(tb)
-        bundles = client.service.getTrustBundles()
+        bundle= client.service.getTrustBundleByName(self.name)
         domains = client.service.listDomains()
         
-        for domain, bundle in itertools.product(domains, bundles):
+        for domain in domains:
+            print "and adding %s to %s %s"%(self.name, domain, bundle)
             dass = {}
             dass['incoming']=True
             dass['outgoing']=True
