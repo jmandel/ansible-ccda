@@ -153,19 +153,16 @@
   when: certificate_file is defined
 
 - name: Direct | Add DNS Host Records
-  tags: newdns
   action: command python add_dns.py {{item}} {{direct_domain_name}} {{public_ip}}
           chdir=/tmp/install/direct/config_client_py
   with_items: ["MX", "A"]
 
 - name: Direct | Add DNS NS Record
-  tags: newdns
-  action: command python add_dns.py NS {{direct_domain_name}} {{direct_name_sever}}   
+  action: command python add_dns.py NS {{direct_domain_name}} {{direct_name_server}}
           chdir=/tmp/install/direct/config_client_py
 
 - name: Direct | Add DNS NS A Record
-  tags: newdns
-  action: command python add_dns.py A {{direct_name_sever}} {{public_ip}}
+  action: command python add_dns.py A {{direct_name_server}} {{public_ip}}
           chdir=/tmp/install/direct/config_client_py
 
 - name: Direct | Config save incoming messages
