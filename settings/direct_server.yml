@@ -1,6 +1,7 @@
 ---
 {
   "ccda_post_url": "http://growth.bluebuttonpl.us/incoming/ccda/for/{to}",
+  "direct_name_server": "ns.direct.growth.bluebuttonpl.us",
   "direct_domain_name": "direct.growth.bluebuttonpl.us",
   "postmaster": "postmaster@direct.growth.bluebuttonpl.us",
   "catchall": true,
@@ -13,7 +14,7 @@
      "state": "MA",
      "org": "SMART Platforms"
    },
-   "trust_bundles": [
+  "trust_bundles": [
      {
         "name": "Patient Test Bundle",
         "url": "https://secure.bluebuttontrust.org/p7b.ashx?id=4d9daaf9-384a-e211-8bc3-78e3b5114607" 

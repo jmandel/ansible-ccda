@@ -29,6 +29,19 @@ class A(DNS):
     def data(self):
         return to_wire(self.ip, self)
 
+class NS(DNS):
+
+    record_type = 2
+
+    def __init__(self, name, nameserver, ttl=300):
+        self.name=dot(name)
+        self.nameserver = nameserver
+        self.ttl = ttl
+
+    @property
+    def data(self):
+        return to_wire(dot(self.nameserver), self)
+
 class MX(DNS):
 
     record_type = 15
