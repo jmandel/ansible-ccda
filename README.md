@@ -1,12 +1,12 @@
-# Configuration Management for SMART C-CDA Tools
+# Config Management: Direct + SMART reDirect
 
-Use these scripts to get a **fresh Ubuntu 12.10 machine** up and running with:
- * Direct Java Reference Implementation [version 2.1](http://wiki.directproject.org/message/view/Java+Reference+Implementation/60702540)
- * SMART's C-CDA [reDirect](https://github.com/jmandel/ccda-reDirect) (push e-mail attachments into the Receiver)
+Use these scripts to get up and runing with:
+ * Direct Java Reference Implementation [version 2.1.1](http://wiki.directproject.org/message/view/Java+Reference+Implementation/60702540)
+ * SMART's C-CDA [reDirect](https://github.com/jmandel/ccda-reDirect) (turns secure e-mail attachments into HTTP POST)
 
-##  VM-only ("ansible local")  mode
+##  One cloud server ("local" mode)
 
-Everything runs on your VM, including the ansible installer scripts. (Note that
+Everything runs on your cloud VM, including the ansible installer scripts. (Note that
 ansible also supports an ssh-based remote configuraiton mode, where all the
 installer scripts run elsewhere and are pushed the the VM when you specify 
 remote hosts and run `ansible-playbook`.)
@@ -14,7 +14,7 @@ remote hosts and run `ansible-playbook`.)
 We'll focus on local mode, since it's simpler (and only requires a single machine).
 
 
-##### 1. Provision a fresh Ubuntu 12.10 VM in the cloud
+##### 1. Provision a fresh Ubuntu 13.04 VM in the cloud
 ##### 2.  Install dependencies, ansible, and this playbook
 
 ```
