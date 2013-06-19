@@ -1,6 +1,6 @@
 ---
 {
-  "ccda_post_url": "http://localhost:4001/incoming/ccda/for/{to}",
+  "ccda_post_url": "http://growth.bluebuttonpl.us/incoming/ccda/for/{to}",
   "direct_domain_name": "direct.growth.bluebuttonpl.us",
   "postmaster": "postmaster@direct.growth.bluebuttonpl.us",
   "catchall": true,
