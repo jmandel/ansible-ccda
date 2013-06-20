@@ -8,6 +8,7 @@
      "openjdk-7-jdk",
      "nmap",
      "python-pip",
+     "python-dev",
      "netcat",
      "openssl",
      "libssl-dev"]
