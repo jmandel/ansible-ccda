@@ -1,29 +1,50 @@
 ---
 {
-  "ccda_post_url": "http://growth.bluebuttonpl.us/incoming/ccda/for/{to}",
-  "direct_name_server": "ns.direct.growth.bluebuttonpl.us",
+  # Domain name for this Direct server
+  # (Secure e-mail will be to/from @direct_domain_name)
+  # A best practice is to use "direct".yournormaldomain.tld
   "direct_domain_name": "direct.growth.bluebuttonpl.us",
+
+  # Direct e-mail address of the postmaster for your Direct domain
+  # A best practice is to use "postmaster"@direct_domain_name
   "postmaster": "postmaster@direct.growth.bluebuttonpl.us",
-  "catchall": true,
+
+  # Name server for your direct_domain
+  "direct_name_server": "ns.direct.growth.bluebuttonpl.us",
+
+  # Where to POST C-CDAs that arrive attached to Direct email messages?
+  # This is a URL template where
+  #    {to}  :  recipient e-mail address
+  #    {from}:  sender e-mail address 
+  "ccda_post_url": "http://growth.bluebuttonpl.us/incoming/ccda/for/{to}",
+
+  # The server will have a single inbox where all messages are routed
+  # The first item in the email_users list defines the credentials
+  # for that catchall account.
   "email_users": [{
-      "username": "catchall",
-      "password": "password"
-    }],
+    "username": "catchall",
+    "password": "password"
+  }],
+
+  # If you don't already have a certificate, fill in your details
+  # below to generate a self-signed certificate for your Direct domain
   "certificate": {
      "country": "US",
      "state": "MA",
      "org": "SMART Platforms"
    },
-  "trust_bundles": [
-     {
-        "name": "Patient Test Bundle",
-        "url": "https://secure.bluebuttontrust.org/p7b.ashx?id=4d9daaf9-384a-e211-8bc3-78e3b5114607" 
-     },
-     {
+
+  # If you have an existing certificate, you can load it here
+  # instead of auto-generating a self-signed cert. Just point
+  # to a PKCS12 (cert + private key) file as:
+  # "certificate_file": "/path/to/my-cert-with-key.p12"
+
+  # Trust bundles to support, by default. For testing, use Test bundles.
+  "trust_bundles": [{
+    "name": "Patient Test Bundle",
+    "url": "https://secure.bluebuttontrust.org/p7b.ashx?id=4d9daaf9-384a-e211-8bc3-78e3b5114607" 
+   }, {
      "name": "Provider Test Bundle",
      "url": "https://secure.bluebuttontrust.org/p7b.ashx?id=cb300117-3a4a-e211-8bc3-78e3b5114607"
-     }
-   ],
-  "java_home": "/usr/lib/jvm/java-7-openjdk-amd64",
-  "jri_zip_file": "http://repo.typesafe.com/typesafe/repo/org/nhind/direct-project-stock/2.1.1/direct-project-stock-2.1.1.tar.gz"
-} 
+   }]
+}
