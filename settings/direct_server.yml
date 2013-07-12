@@ -31,7 +31,7 @@
   "certificate": {
      "country": "US",
      "state": "MA",
-     "org": "SMART Platforms"
+     "organization": "SMART Platforms"
    },
 
   # If you have an existing certificate, you can load it here
