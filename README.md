@@ -31,6 +31,8 @@ git clone git://github.com/ansible/ansible.git
 cd ansible
 make install
 
+cd ..
+
 # Grab this playbook (the one whose README you're reading now)
 git clone https://github.com/jmandel/ansible-ccda 
 cd ansible-ccda
