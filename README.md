@@ -116,6 +116,12 @@ Upload at: https://secure.bluebuttontrust.org/submitanchor.aspx
 
 Now you can try...
 
+#### Sending a test message to your Direct server
+1.  Visit http://sitenv.org/web/sit/direct-transport
+2.  Upload your `certificate.der` file
+3.  Send a message to yourself, attaching one of the sample documents (or attach your own -- e.g. from http://github.com/chb/sample_ccdas)
+
+
 #### Viewing logs
 Your server's logs are at:
 * `/var/log/upstart/direct-james.log` mail server log
