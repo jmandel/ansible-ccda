@@ -121,7 +121,7 @@ Your server's logs are at:
 * `/var/log/upstart/direct-dns.log` DNS server log
 * `/var/log/upstart/direct-tomcat.log` Config server log
 * `/var/log/upstart/ccda-reDirect.log` C-CDA reDirect listener log
-* 
+
 #### Viewing your "catchall" inbox
 You can see all the messages that have landed in your inbox using an email client like Thunderbird.
 Configure it to talk to your direct server via:
