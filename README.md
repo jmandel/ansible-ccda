@@ -106,3 +106,32 @@ In your domain's DNS, add two entries:
 
 With those two entries, you should be up and running!
 
+
+---
+## Testing and Debugging
+So you've got the Direct server installed. Have you uploaded your anchor 
+(`/opt/direct/certificates/certificate.pem`) to the BlueButton+ Trust Bundle?
+Upload at: https://secure.bluebuttontrust.org/submitanchor.aspx 
+
+Now you can try...
+
+#### Viewing logs
+Your server's logs are at:
+* `/var/log/upstart/direct-james.log` mail server log
+* `/var/log/upstart/direct-dns.log` DNS server log
+* `/var/log/upstart/direct-tomcat.log` Config server log
+* `/var/log/upstart/ccda-reDirect.log` C-CDA reDirect listener log
+* 
+#### Viewing your "catchall" inbox
+You can see all the messages that have landed in your inbox using an email client like Thunderbird.
+Configure it to talk to your direct server via:
+
+```
+Server: your direct_settings.yml (direct_domain_name)
+  - POP Port: 995
+  - SMTP Port: 465
+  - Security: SSL/TLS
+  - Authentication: Normal Password
+  - username: your direct_settings.yml (email_users.username)
+  - password: your direct_settings.yml (email_users.password)
+```
