@@ -29,6 +29,7 @@ apt-get -y install git \
 # Install Ansible
 git clone git://github.com/ansible/ansible.git
 cd ansible
+git checkout release1.2.2
 make install
 
 cd ..
