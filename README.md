@@ -119,7 +119,8 @@ Now you can try...
 #### Sending a test message to your Direct server
 1.  Visit http://sitenv.org/web/sit/direct-transport
 2.  Upload your `certificate.der` file
-3.  Send a message to yourself (note: use `{anything-you-want}@direct.yourdomain.com` -- but do not use the account `catchall` directly.), attaching one of the sample documents (or attach your own -- e.g. from http://github.com/chb/sample_ccdas)
+3.  Send a message to yourself (note: use `{anything-you-want}@direct.yourdomain.com` --
+anything **except** `catchall@direct.yourdomain.com`!), attaching one of the sample documents (or attach your own -- e.g. from http://github.com/chb/sample_ccdas)
 
 
 #### Viewing logs
