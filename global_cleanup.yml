@@ -1,3 +1,0 @@
-- name: General | cleanup tmp files
-  tags: ccda-receiver
-  action: file path=/tmp/install state=absent

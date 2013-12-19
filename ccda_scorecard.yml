@@ -1,9 +1,4 @@
 - include: tasks/node_mongo_tasks.yml
- 
-- name: Firewall | Allow web ports
-  tags: firewall
-  action: command ufw allow $item 
-  with_items: ["80", "4000"]
 
 - name: CCDA-Scorecard | git clone
   tags: ccda-scorecard

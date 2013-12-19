@@ -39,12 +39,3 @@
   action: apt pkg=mongodb-10gen state=installed update_cache=yes
   when_boolean: ${added_mongo_ppa.changed}
   tags: mongodb
-
-
-- name: nginx | install packages
-  tags: nginx
-  action: apt pkg=$item state=installed
-  with_items:
-    - nginx
-
-

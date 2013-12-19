@@ -9,14 +9,6 @@
   tasks: 
     - include: global_setup.yml
 
-### C-CDA Receiver Servers
-- hosts: ccda-receiver
-  user: root
-  vars_files: 
-    - settings/ccda_receiver.yml
-  tasks: 
-    - include: ccda_receiver.yml
-
 ### C-CDA Scorecard Server
 - hosts: ccda-scorecard
   user: root
@@ -24,15 +16,6 @@
     - settings/ccda_scorecard.yml
   tasks: 
     - include: ccda_scorecard.yml
-
-### Direct Servers
-- hosts: direct-server
-  user: root
-  vars_files: 
-    - settings/direct_server.yml
-    - settings/ccda_receiver.yml
-  tasks: 
-    - include: direct_server.yml
 
 ## Global cleanup
 - hosts: all

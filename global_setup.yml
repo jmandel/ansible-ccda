@@ -7,29 +7,7 @@
     - g++
     - make
     - curl
-    - ufw
     - python-httplib2
-
-- name: General | Firewall reset
-  tags: firewall
-  action: shell yes | ufw reset --force
-
-- name: General | Firewall deny all
-  tags: firewall
-  action: command ufw default deny
-
-- name: General | Firewall allow ssh
-  tags: firewall
-  action: command ufw allow 22
-
-- name: General | Firewall
-  tags: firewall
-  action: shell yes | ufw enable
 
 - name: General | Installer temp dir
   action: file path=/tmp/install/ state=directory
-
-- name: General | MOTD for Ansible
-  action: copy src=files/etc/update-motd.d/95-ansible dest=/etc/update-motd.d/95-ansible mode=755
-  tags: common
-
