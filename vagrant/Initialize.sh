@@ -10,7 +10,7 @@ sudo apt-get -y install git \
 	           software-properties-common
 
 cd /tmp
-git clone git://github.com/ansible/ansible.git
+git clone https://github.com/ansible/ansible.git
 cd ansible
 git checkout release1.2.2
 make install
