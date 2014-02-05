@@ -14,8 +14,8 @@ remote hosts and run `ansible-playbook`.)
 We'll focus on local mode, since it's simpler (and only requires a single machine).
 
 
-##### 1. Provision a fresh Ubuntu 13.04 VM in the cloud
-##### 2.  Install dependencies, ansible, and this playbook
+##### 1. Provision a fresh Ubuntu 13.04 VM **with at least 1GB RAM**
+##### 2. Install dependencies, ansible, and this playbook
 
 ```
 # Install package dependencies
