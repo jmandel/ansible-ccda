@@ -14,7 +14,7 @@ remote hosts and run `ansible-playbook`.)
 We'll focus on local mode, since it's simpler (and only requires a single machine).
 
 
-##### 1. Provision a fresh Ubuntu 13.04 VM **with at least 1GB RAM**
+##### 1. Provision a fresh Ubuntu 13.10 VM **with at least 1GB RAM** (e.g. EC2 m1.small)
 ##### 2. Install dependencies, ansible, and this playbook
 
 ```
