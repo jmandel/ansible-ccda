@@ -5,5 +5,5 @@
 {
   "catchall": true,
   "java_home": "/usr/lib/jvm/java-7-openjdk-amd64",
-  "jri_zip_file": "http://repo.typesafe.com/typesafe/repo/org/nhind/direct-project-stock/2.1.1/direct-project-stock-2.1.1.tar.gz"
+  "jri_zip_file": "https://repo2.maven.org/maven2/org/nhind/direct-project-stock/2.1.1/direct-project-stock-2.1.1.tar.gz"
 } 
