@@ -1,6 +1,6 @@
 # Note: This installer is unmainatined
 
-In short, this Ansible-based installer has fallen behind the Direct refernce implementation (now at version 3). You may want to check out the documentation and installation details at: http://api.nhindirect.org/java/site/assembly/stock-installer/3.0.1/users-guide/index.html
+In short, this Ansible-based installer has fallen behind the Direct reference implementation (now at version 3). You may want to check out the documentation and installation details at: http://api.nhindirect.org/java/site/assembly/stock-installer/3.0.1/users-guide/index.html
 
 
 ---
